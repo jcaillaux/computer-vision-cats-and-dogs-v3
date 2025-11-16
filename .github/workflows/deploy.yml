@@ -162,7 +162,7 @@ jobs:
             cd docker
             # 📂 Sous-répertoire contenant docker-compose.yml et Dockerfile.app
             
-            docker compose -p cv-${STUDENT_ID} down 2>/dev/null || true
+            docker compose -p computer-vision-cats-and-dogs-v3-${STUDENT_ID} down 2>/dev/null || true
             # 🛑 ARRÊT GRACIEUX des containers existants
             # 2>/dev/null : supprime erreurs si pas de containers (première install)
             # || true : ne fait pas échouer le script si erreur (idempotence)
@@ -171,7 +171,7 @@ jobs:
             # - stop : arrête containers (gardés pour restart rapide)
             # - down : arrête + supprime containers + réseau (clean slate)
             
-            docker compose -p cv-${STUDENT_ID} build --no-cache
+            docker compose -p computer-vision-cats-and-dogs-v3-${STUDENT_ID} build --no-cache
             # 🔨 REBUILD des images Docker
             # --no-cache : force rebuild complet (ignore layers en cache)
             # 
@@ -185,7 +185,7 @@ jobs:
             #
             # Alternative optimisée : build seulement si Dockerfile/requirements changés
             
-            docker compose -p cv-${STUDENT_ID}
+            docker compose -p computer-vision-cats-and-dogs-v3-${STUDENT_ID}
             # 🚀 DÉMARRAGE des containers en mode détaché
             # -d : background (daemon mode)
             # Ordre de démarrage : cf. depends_on dans docker-compose.yml
@@ -211,7 +211,7 @@ jobs:
             # 📊 VÉRIFICATION DU DÉPLOIEMENT
             # ═══════════════════════════════════════════════════════════════
             echo "✅ Containers pour ${STUDENT_ID} :"
-            docker compose -p cv-${STUDENT_ID} ps
+            docker compose -p computer-vision-cats-and-dogs-v3-${STUDENT_ID} ps
             # 📋 Affiche statut de chaque service
             # Colonnes : NAME | STATUS | PORTS | HEALTH
             # ⚠️ Vérifier :
