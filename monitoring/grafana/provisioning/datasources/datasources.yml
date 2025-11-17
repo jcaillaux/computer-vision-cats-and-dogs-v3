@@ -17,7 +17,7 @@ datasources:
     access: proxy
     url: postgres:5432
     uid: postgres
-    database: cats_dogs_db
+    database: ${DB_NAME}_${STUDENT_ID}
     user: catsdogs
     editable: true
     jsonData:

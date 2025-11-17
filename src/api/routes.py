@@ -315,7 +315,7 @@ async def predict_api(
             user_comment=None
         )
         
-        update_db_status(True)
+        #update_db_status(True)
         # 📝 Retourne objet ORM PredictionFeedback avec .id auto-généré
         
         # ─────────────────────────────────────────────────────────────────────

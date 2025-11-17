@@ -395,6 +395,10 @@ services:
       # Unified = moderne, legacy = déprécié depuis Grafana 9
 
       GF_SERVER_ROOT_URL: "http://${VPS_HOST:-localhost}:${STUDENT_PORT_GRAFANA:-3000}"
+      DB_NAME: ${DB_NAME:-cats_dogs_db}
+      DB_USER: ${DB_USER:-catsdogs}
+      DB_PWD: ${DB_PWD}
+      STUDENT_ID: ${STUDENT_ID:-student01}
     
     ports:
       - "${STUDENT_PORT_GRAFANA:-3000}:3000"
