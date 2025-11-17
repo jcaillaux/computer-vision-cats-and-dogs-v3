@@ -1,18 +1,20 @@
-# 🐱🐶 Computer Vision Cats & Dogs - V2 Monitoring
+# 🐱🐶 Computer Vision Cats & Dogs - V3 MLOps
 
-[![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org)
-[![FAST Api](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![Keras](https://img.shields.io/badge/Keras-%23D00000.svg?style=for-the-badge&logo=Keras&logoColor=white)](https://keras.io/)
 [![PostgreSQL](https://img.shields.io/badge/postgresql-4169e1?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
-[![Pytest](https://img.shields.io/badge/Pytest--cov-%233F51B5?style=for-the-badge&logo=pytest&logoColor=white&labelColor=black)](https://docs.pytest.org/en/stable/)
+[![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
+[![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=Prometheus&logoColor=white)](https://prometheus.io/)
+[![Grafana](https://img.shields.io/badge/grafana-%23F46800.svg?style=for-the-badge&logo=grafana&logoColor=white)](https://grafana.com/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 
 <div align="center">
 
-<h3>Classification d'images avec Keras et exposition du modèle via Fast API</br></h3>
-<h3>Version enrichie avec monitoring et feedback utilisateur</br></h3>
+<h3>Système MLOps production-ready avec monitoring complet</h3>
+<h3>Prometheus + Grafana + Discord + CI/CD automatisé</h3>
 
-[Explore the docs](docs/)
+[Explore the docs](docs/) · [Architecture](#-architecture) · [Quick Start](#-quick-start)
 
 </div>
 
@@ -20,294 +22,388 @@
 
 ## 📌 Introduction
 
-Il s'agit de la version 2 du projet, dans une série de 3 versions, la version 2 a pour objectif de développer une solution de monitoring (incluant le "human feedback loop") et la version 3 de proposer une solution ML Ops avancée (monitoring avancé, tests automatisés et déploiement continu).
+**Version 3** du projet Computer Vision : transformation d'une application ML en système MLOps production-ready. Cette version ajoute un stack complet de monitoring (Prometheus + Grafana), alerting intelligent (Discord), containerisation (Docker), et déploiement automatisé (CI/CD).
 
-## 🔍 Vue d'ensemble
+### 🎯 Objectifs pédagogiques V3
 
-Cette version 2 étend le projet de classification d'images en ajoutant des fonctionnalités de monitoring avancées, une collecte de feedback utilisateur conforme RGPD, et un dashboard de surveillance en temps réel.
+- **Observabilité** : métriques Prometheus, dashboards Grafana, alertes proactives
+- **Infrastructure as Code** : Docker Compose, provisioning automatique
+- **CI/CD** : déploiement VPS automatisé via GitHub Actions
+- **Production readiness** : healthchecks, rollback, monitoring multi-canal
 
-### ✨ Nouvelles fonctionnalités V2
+## 🆕 Nouveautés V3
 
-- **Base de données PostgreSQL** : Stockage persistant des prédictions et métriques
-- **Collecte de feedback utilisateur** : Système de satisfaction avec respect du RGPD
-- **Dashboard de monitoring** : Visualisations interactives avec Plotly
-- **Tests automatisés étendus** : Tests de base de données et API
-- **Pipeline CI/CD complet** : Tests automatiques sur GitHub Actions
+| Fonctionnalité | V2 | V3 |
+|----------------|----|----|
+| **Containerisation** | ❌ | ✅ Docker + Docker Compose |
+| **Métriques** | Plotly dashboards | Prometheus + Plotly |
+| **Visualisation** | Dashboards statiques | Grafana interactif + provisioning |
+| **Alerting** | ❌ | Discord webhooks + Grafana Unified Alerting |
+| **Déploiement** | Manuel | GitHub Actions → VPS |
+| **Monitoring** | Base de données uniquement | PostgreSQL + Prometheus + logs |
+| **Infrastructure** | Local | Production VPS (OVH) |
 
-## 🏗️ Architecture de l'application
+## 🏗️ Architecture MLOps
 
-### 🛠️ Stack technologique
+### 🛠️ Stack technologique complète
 
+**Core Application** (conservé V2)
 - **IA** : Keras 3 + TensorFlow (CNN)
-- **API** : FastAPI avec authentification par token
-- **Base de données** : PostgreSQL avec SQLAlchemy
-- **Frontend** : Templates Jinja2 + Bootstrap 5 + Bootstrap Icons
-- **Visualisation** : Plotly pour les graphiques interactifs
-- **Tests** : pytest avec PostgreSQL de test
-- **CI/CD** : GitHub Actions
+- **API** : FastAPI avec authentification
+- **Database** : PostgreSQL + SQLAlchemy
+- **Frontend** : Jinja2 + Bootstrap 5
 
-### 🔄 Architecture fonctionelle
+**🆕 MLOps Stack V3**
+- **Containerisation** : Docker + Docker Compose
+- **Metrics** : Prometheus + prometheus-client
+- **Dashboards** : Grafana + provisioning YAML
+- **Alerting** : Discord webhooks + Grafana alerts
+- **CI/CD** : GitHub Actions + SSH deployment
+- **Infrastructure** : VPS OVH (production)
 
+### 🔄 Architecture système
 ```mermaid
 graph TB
-    subgraph "Data Layer"
-        A[📁 Raw Data<br/>data/raw/] --> B[📁 Processed Data<br/>data/processed/]
-        C[📁 External Data<br/>data/external/]
-        DB[(🗄️ PostgreSQL<br/>predictions_feedback<br/>Monitoring Data)]
+    subgraph "User Layer"
+        U[👤 User] --> WEB[🌐 Web Interface :8000]
+        U --> API[🚀 FastAPI /api/predict]
     end
     
-    subgraph "ML Pipeline"
-        D[🧠 CNN Model<br/>Keras 3<br/>src/models/] 
-        E[📊 Data Processing<br/>src/data/]
-        F[📈 Monitoring Service<br/>src/monitoring/<br/>Dashboard & KPIs]
+    subgraph "Application Container"
+        WEB --> APP[📦 cv_app<br/>FastAPI + CNN Model]
+        API --> APP
+        APP --> PROM_CLIENT[📊 Prometheus Client<br/>/metrics endpoint]
     end
     
-    subgraph "Database Layer"
-        DBConn[🔗 DB Connector<br/>src/database/db_connector.py]
-        DBModels[📋 SQLAlchemy Models<br/>src/database/models.py]
-        DBService[⚙️ Feedback Service<br/>src/database/feedback_service.py]
+    subgraph "Database Container"
+        APP --> PG[(🗄️ PostgreSQL<br/>predictions_feedback)]
     end
     
-    subgraph "Application Layer"
-        G[🚀 FastAPI Server<br/>src/api/main.py]
-        H[🌐 Web Interface<br/>src/web/<br/>Jinja2 Templates]
-        I[🔧 Utils<br/>src/utils/]
-        R[🎯 Prediction Endpoint<br/>/api/predict<br/>+ RGPD Consent]
-        MON[📊 Monitoring Dashboard<br/>/monitoring<br/>Plotly Charts]
+    subgraph "Monitoring Stack"
+        PROM[📈 Prometheus<br/>Scrapes /metrics every 10s]
+        GRAF[📊 Grafana<br/>Dashboards + Alerts]
+        
+        PROM_CLIENT --> PROM
+        PROM --> GRAF
+        PG --> GRAF
     end
     
-    subgraph "DevOps & Infrastructure"
-        K[⚙️ CI/CD<br/>.github/workflows/<br/>PostgreSQL Service]
-        L[📋 Scripts<br/>scripts/]
-        M[🧪 Extended Tests<br/>tests/<br/>API + Database]
+    subgraph "Alerting"
+        GRAF --> DISCORD[💬 Discord Webhook<br/>Critical/Warning/Info]
     end
     
-    subgraph "Configuration & Documentation"
-        N[⚙️ Config<br/>config/<br/>DB Settings]
-        O[📚 Documentation<br/>docs/]
-        Q[📦 Requirements<br/>requirements/]    
+    subgraph "CI/CD Pipeline"
+        GH[⚙️ GitHub Actions] -->|SSH Deploy| VPS[🖥️ VPS OVH]
+        VPS --> APP
     end
     
-    %% Data Flow V2
-    B --> E
-    E --> D
-    D --> G
-    G --> H
-    G --> R
-    G --> MON
-    
-    %% Database Integration
-    R --> DBService
-    DBService --> DB
-    DBConn --> DB
-    DBModels --> DBService
-    F --> DB
-    MON --> F
-    
-    %% Enhanced DevOps
-    M --> K
-    M --> DB
-    L --> G
-    
-    %% Configuration
-    N --> G
-    N --> D
-    N --> DBConn
-    Q --> G
-    Q --> D
-    
-    %% Documentation & Development
-    O --> H
-    
-    %% Styling
-    classDef dataClass fill:#e1f5fe,stroke:#01579b,stroke-width:2px
-    classDef mlClass fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
     classDef appClass fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
-    classDef devopsClass fill:#fff3e0,stroke:#e65100,stroke-width:2px
-    classDef configClass fill:#fafafa,stroke:#424242,stroke-width:2px
     classDef dbClass fill:#ffebee,stroke:#c62828,stroke-width:2px
+    classDef monClass fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef cicdClass fill:#e1f5fe,stroke:#01579b,stroke-width:2px
     
-    class A,B,C,DB dataClass
-    class D,E,F mlClass
-    class G,H,I,R,MON appClass
-    class K,L,M devopsClass
-    class N,O,Q configClass
-    class DBConn,DBModels,DBService dbClass
+    class WEB,API,APP,PROM_CLIENT appClass
+    class PG dbClass
+    class PROM,GRAF,DISCORD monClass
+    class GH,VPS cicdClass
 ```
 
-### 📁 Structure du projet
-
+### 📁 Structure projet V3
 ```txt
-project-name/
+computer-vision-cats-and-dogs-v3/
 ├── .github/
-│   ├── workflows/           # CI/CD pipelines
-│   └── ISSUE_TEMPLATE/      # Templates d'issues
-├── config/                  # Fichiers de configuration
-├── data/
-│   ├── raw/                 # Données brutes (gitignored)
-│   ├── processed/           # Données traitées (gitignored)
-│   └── external/            # Données externes/références
-├── docker/                  # Dockerfiles et compose
-├── docs/                    # Documentation
-├── notebooks/               # Jupyter notebooks pour exploration
-├── requirements/            # Dépendances par environnement
-│   ├── base.txt
-│   ├── dev.txt
-│   └── prod.txt
-├── scripts/                 # Scripts d'automatisation/déploiement
-├── src/                     # Code source principal
-│   ├── api/                 # APIs et services web
-│   ├── data/                # Scripts de traitement des données
-│   ├── database/            # Gestion base de données
-│       ├── db_connector.py    # Connexion PostgreSQL
-│       ├── models.py          # Modèles SQLAlchemy
-│       ├── schemas.py         # Schémas Pydantic
-│       ├── feedback_service.py# Service métier
-│       ├── db_creator.py      # Script création DB
-│       └── table_creator.py   # Script création tables
-│   ├── models/              # Modèles ML/IA
-│   ├── monitoring/          # Monitoring des modèles et de l'application
-│       └── dashboard_service.py# Génération graphiques
-│   ├── utils/               # Utilitaires partagés
-│   └── web/                 # Templates jinja2
-│   └── templates/
-│       ├── base.html        # Template de base
-│       ├── inference.html   # Page de prédiction
-│       └── monitoring.html  # Dashboard monitoring
-├── tests/                   # Tests unitaires et d'intégration
-│   ├── test_api_simple.py   # Tests API
-│   └── test_db_simple.py    # Tests base de données
-├── .env                     # Variables d'environnement (à configurer)
-├── .env.example             # Variables d'environnement exemple
-├── .gitignore
-├── README.md
-├── Makefile                 # Commandes fréquentes
-└── pyproject.toml           # Configuration Python/packaging
+│   └── workflows/
+│       └── deploy.yml              # 🆕 CI/CD automatique
+├── config/                         # ✅ Inchangé
+├── data/                           # ✅ Inchangé
+├── docker/                         # 🆕 Nouvelle section
+│   ├── docker-compose.yml          # Stack complète (app, db, monitoring)
+│   ├── Dockerfile.app              # Image FastAPI + ML
+│   ├── init-db.sql                 # Init PostgreSQL
+│   └── .env                        # Secrets (gitignored)
+├── monitoring/                     # 🆕 Configuration monitoring
+│   ├── grafana/
+│   │   └── provisioning/
+│   │       ├── alerting/           # Alertes + contact points
+│   │       ├── dashboards/         # Dashboards CV
+│   │       └── datasources/        # Prometheus + PostgreSQL
+│   └── prometheus/
+│       ├── prometheus.yml          # Scrape configs
+│       └── rules/                  # Alert rules (optionnel)
+├── docs/
+│   ├── MIGRATION_V2_TO_V3.md      # 🆕 Guide migration
+│   └── MONITORING_SETUP.md        # 🆕 Setup Grafana/Discord
+├── requirements/
+│   ├── base.txt                    # ✅ Inchangé
+│   ├── dev.txt                     # ✅ Inchangé
+│   ├── prod.txt                    # 🆕 Ajout gunicorn
+│   └── monitoring.txt              # 🆕 prometheus-client, psutil
+├── src/
+│   ├── api/                        # ✅ Conservé (routes enrichies)
+│   ├── database/                   # ✅ Conservé
+│   ├── models/                     # ✅ Conservé
+│   ├── monitoring/
+│   │   ├── dashboard_service.py    # ✅ Conservé (Plotly)
+│   │   ├── prometheus_metrics.py   # 🆕 Export métriques
+│   │   └── discord_notifier.py     # 🆕 Alertes Discord
+│   └── web/                        # ✅ Conservé
+├── tests/
+│   ├── test_api_simple.py          # ✅ Conservé
+│   ├── test_db_simple.py           # ✅ Conservé
+│   ├── test_prometheus_metrics.py  # 🆕 Tests métriques
+│   └── test_docker_health.py       # 🆕 Tests containers
+├── .env.example                    # 🆕 Enrichi (Discord, Grafana)
+└── README.md                       # 🆕 Ce fichier
 ```
 
-## ⚙️ Fonctionnalités détaillées
+## 📊 Stack de monitoring
 
-### 📊 Monitoring et analytics
+### Prometheus (métriques)
 
-#### KPI temps d'inférence
+**Métriques collectées** :
+- `cv_predictions_total{result}` : Compteur prédictions (cat/dog)
+- `cv_inference_time_seconds` : Histogram latence inférence
+- `cv_model_confidence` : Histogram scores de confiance
+- `cv_user_feedback_total{satisfaction}` : Compteur feedbacks
+- `cv_database_connected` : Gauge statut DB (0/1)
 
-- Temps moyen, minimum, maximum
-- Courbe temporelle d'évolution
-- Nombre total de prédictions
+**Endpoint** : http://localhost:9090
 
-#### KPI satisfaction utilisateur
+### Grafana (dashboards + alerting)
 
-- Taux de satisfaction en pourcentage
-- Répartition satisfait/insatisfait
-- Scatter plot temporel des feedbacks
+**Dashboards provisionnés** :
+- KPIs temps réel (prédictions, latence, satisfaction)
+- Time series inférence et feedbacks
+- Statut infrastructure (DB, API)
 
-### 🛡️ Conformité RGPD
+**Alertes configurées** :
+- 🔴 **Critical** : Database disconnected (rappel 5min)
+- 🟡 **Warning** : High inference latency >2s (rappel 1h)
+- 🔵 **Info** : No predictions activity 15min (rappel 6h)
 
-- Consentement explicite de l'utilisateur
-- Stockage conditionnel des données personnelles
-- Métriques anonymes par défaut
-- Pas de stockage du nom de fichier sans consentement
+**Endpoint** : http://localhost:3000 (admin/admin par défaut)
 
-### 🗄️ Base de données
+### Discord (notifications)
 
-#### Table `predictions_feedback`
+Notifications temps réel via webhook :
+- Embeds riches avec métriques
+- Couleurs par sévérité (rouge/jaune/bleu)
+- Résolution automatique
 
-- id, timestamp, created_at : Identifiants et horodatage
-- inference_time_ms, success : Métriques de performance
-- prediction_result, proba_cat, proba_dog : Résultats de prédiction
-- rgpd_consent, filename : Données RGPD
-- user_feedback, user_comment : Feedback utilisateur
+## 🚀 Quick Start
 
-## 🚀 Installation et utilisation
+### Prérequis
 
-### 📋 Prérequis
-
-- Python 3.11+
-- PostgreSQL 15+
+- Docker 24+ et Docker Compose 2+
 - Git
+- (Optionnel) VPS pour déploiement production
 
-### ⚡ Installation
+### Installation locale
+```bash
+# 1. Cloner le repository
+git clone https://github.com/votre-username/computer-vision-cats-and-dogs-v3.git
+cd computer-vision-cats-and-dogs-v3
 
-- Cloner le repository
-- Créer l'environnement virtuel
-- Installer les dépendances via `requirements/base.txt`
+# 2. Configurer les variables d'environnement
+cp .env.example .env
+# Éditer .env avec vos valeurs (DB_PWD, API_TOKEN, DISCORD_WEBHOOK_URL, etc.)
 
-### ⚙️ Configuration
+# 3. Lancer la stack complète
+cd docker
+docker compose up -d
 
-- Créer un fichier `.env` à la racine avec la configuration PostgreSQL (DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PWD, DB_TABLE_MONITORING) et le token API.
-- Voir le fichier `.env.example` pour exemple.
+# 4. Vérifier les services
+docker compose ps
+```
 
-### 🗃️ Initialisation de la base de données
+### Accès aux services
 
-- Exécuter successivement : `db_connector.py` pour tester la connexion, puis  `db_creator.py` pour créer la base, et enfin `table_creator.py` pour créer la table de monitoring.
+- **Application** : http://localhost:8000
+- **API Docs** : http://localhost:8000/docs
+- **Monitoring V2** : http://localhost:8000/monitoring (Plotly)
+- **Prometheus** : http://localhost:9090
+- **Grafana** : http://localhost:3000 (admin/admin)
 
-### 🚀 Lancement de l'application
+### Premier test
+```bash
+# Healthcheck
+curl http://localhost:8000/health
 
-Démarrer l'API avec `scripts/run_api.py` puis accéder à :
+# Prédiction (avec token)
+curl -X POST http://localhost:8000/api/predict \
+  -H "Authorization: Bearer VOTRE_TOKEN" \
+  -F "file=@test_image.jpg" \
+  -F "rgpd_consent=true"
 
-- http://127.0.0.1:8000 : Interface principale
-- http://127.0.0.1:8000/docs : Documentation API
-- http://127.0.0.1:8000/monitoring : Dashboard monitoring
+# Métriques Prometheus
+curl http://localhost:8000/metrics
+```
 
-- Page de documentation de l'API (Swagger) :
+## 🔧 Configuration
 
-![Swagger](/docs/img/swagger.png "Page de documentation de l'API")
+### Variables d'environnement (.env)
+```bash
+# Base de données
+DB_HOST=postgres
+DB_PORT=5432
+DB_NAME=cats_dogs_db
+DB_USER=catsdogs
+DB_PWD=votre_mot_de_passe_securise
+DB_TABLE_MONITORING=predictions_feedback
 
-- Page d'accueil de l'application :
+# API
+API_TOKEN=votre_token_api_securise
 
-![Web APP](/docs/img/web.png "Application web du projet")
+# Monitoring V3
+ENABLE_PROMETHEUS=true
+DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/...
+
+# Grafana
+GRAFANA_ADMIN_USER=admin
+GRAFANA_ADMIN_PASSWORD=changeme_en_production
+```
+
+### Setup Discord webhook
+
+1. Discord → Paramètres serveur → Intégrations → Webhooks
+2. Nouveau Webhook → Copier URL
+3. Ajouter dans `.env` : `DISCORD_WEBHOOK_URL=...`
+
+### Setup Grafana (automatique)
+
+Le provisioning charge automatiquement :
+- Datasources (Prometheus + PostgreSQL)
+- Dashboards (CV monitoring)
+- Contact points (Discord)
+- Alert rules (DB, latency, activity)
+
+**Personnalisation** : Modifier fichiers dans `monitoring/grafana/provisioning/`
+
+## 🚢 Déploiement production
+
+### Setup VPS (une fois)
+```bash
+# Sur le VPS
+curl -fsSL https://get.docker.com | sh
+mkdir -p ~/apps
+cd ~/apps
+nano .env  # Remplir secrets production
+```
+
+### Déploiement automatique (GitHub Actions)
+
+1. **Configurer secrets GitHub** :
+   - `SSH_PRIVATE_KEY` : Clé privée SSH
+   - `VPS_HOST` : IP ou domaine VPS
+   - `VPS_USER` : Utilisateur SSH
+   - `GH_TOKEN` : Token GitHub (si repo privé)
+
+2. **Push sur main** → déploiement automatique
+
+Le workflow `.github/workflows/deploy.yml` :
+- Clone le repo sur VPS
+- Copie `.env` depuis `~/apps/.env`
+- Rebuild images Docker
+- Redémarre containers
+- Nettoie images anciennes
+
+### Rollback manuel
+```bash
+# Sur le VPS
+cd ~/apps/computer-vision-cats-and-dogs-v3
+git log --oneline  # Trouver commit précédent
+git reset --hard <commit-hash>
+cd docker
+docker compose down && docker compose up -d --build
+```
+
+## 📈 Monitoring et alerting
+
+### Métriques clés
+
+**Performance** :
+- Latence P95 < 2s (SLA)
+- Taux de succès > 99%
+
+**Business** :
+- Volume prédictions
+- Satisfaction utilisateur > 80%
+- Répartition cats/dogs
+
+**Infrastructure** :
+- DB uptime > 99.9%
+- Disk usage < 80%
+
+### Alertes Discord
+
+Les alertes sont envoyées automatiquement :
+- **Critical** : notification immédiate + rappel 5min
+- **Warning** : notification + rappel 1h
+- **Info** : notification + rappel 6h
+
+Configuration dans `monitoring/grafana/provisioning/alerting/`
 
 ## 🧪 Tests
 
-### 🔧 Tests manuels
+### Tests locaux
+```bash
+# Tests unitaires
+pytest tests/ -v
 
-- Exécuter `tests/test_db_simple.py` pour les tests base de données
-- Exécuter `tests/test_api_simple.py` pour les tests API.
+# Tests avec coverage
+pytest tests/ --cov=src --cov-report=html
 
-### 🤖 Tests automatisés (CI/CD)
-
-Le pipeline GitHub Actions exécute automatiquement les tests de connexion PostgreSQL, la vérification de la structure des tables, et les tests de l'API avec modèle factice.
-
-## 🔌 API Endpoints
-
-### 🎯 Prédiction
-
-- POST `/api/predict` : Classification d'image avec collecte de feedback
-- POST `/api/update-feedback` : Mise à jour du feedback utilisateur
-
-### 📈 Monitoring
-
-- GET `/api/statistics` : Statistiques globales
-- GET `/api/recent-predictions` : Dernières prédictions
-- GET `/monitoring` : Dashboard web interactif
-
-### ⚡ Système
-
-- GET `/health` : État de l'API et de la base de données
-- GET `/api/info` : Informations sur le modèle
-
-## 📈 Évolutions par rapport à la V1
-
-```markdown
-| Fonctionnalité  | V1              | V2                        |
-|-----------------|-----------------|---------------------------|
-| **Stockage**    | Fichiers CSV    | PostgreSQL                |
-| **Monitoring**  | Logs basiques   | Dashboard interactif      |
-| **Feedback**    | Aucun           | Collecte utilisateur RGPD |
-| **Visualisation** | Aucune        | Graphiques Plotly         |
-| **Tests**       | API uniquement  | API + Base de données     |
-| **CI/CD**       | Basique         | Pipeline complet          |
+# Tests Docker
+docker compose exec cv_app pytest tests/
 ```
 
-## 💻 Développement
+### Tests CI/CD (automatiques)
 
-### 🏛️ Architecture des données
+GitHub Actions exécute :
+- Tests API avec DB PostgreSQL
+- Tests métriques Prometheus
+- Healthchecks Docker
 
-Le système collecte et analyse les temps d'inférence pour optimisation des performances, la précision des prédictions pour amélioration du modèle, la satisfaction utilisateur pour amélioration de l'expérience, et les commentaires utilisateur pour insights qualitatifs.
+## 🔌 API Endpoints (V3)
 
-### 🔮 xtensibilité
+### Nouveaux endpoints
 
-La V2 prépare les évolutions vers la V3 MLOps avec une infrastructure de données établie, des métriques standardisées, un pipeline de tests robuste, et un monitoring des performances en place.
+- `GET /health` : Healthcheck étendu (DB + model + monitoring status)
+- `GET /metrics` : Export Prometheus (si `ENABLE_PROMETHEUS=true`)
+
+### Endpoints conservés V2
+
+- `POST /api/predict` : Prédiction + tracking Prometheus
+- `POST /api/update-feedback` : Feedback + tracking
+- `GET /api/statistics` : Stats globales
+- `GET /monitoring` : Dashboard Plotly (+ liens Grafana/Prometheus)
+
+## 📚 Documentation
+
+- [MIGRATION_V2_TO_V3.md](docs/MIGRATION_V2_TO_V3.md) : Guide migration depuis V2
+- [MONITORING_SETUP.md](docs/MONITORING_SETUP.md) : Configuration monitoring avancée
+- Code source : Commentaires pédagogiques enrichis dans tous les fichiers
+
+## 🎓 Concepts MLOps illustrés
+
+- **Observability** : logs + métriques + traces (partiel)
+- **Infrastructure as Code** : Docker Compose + provisioning
+- **GitOps** : configuration versionnée (Grafana dashboards)
+- **Continuous Deployment** : GitHub Actions → VPS
+- **Monitoring multi-niveau** : application + infrastructure
+- **Alerting intelligent** : seuils adaptatifs + grouping
+
+## 🛣️ Roadmap
+
+**V3 actuel** : MLOps core (monitoring, alerting, CI/CD)
+
+**Évolutions futures** :
+- Model versioning (MLflow, DVC)
+- A/B testing infrastructure
+- Feature store (Feast)
+- Advanced observability (OpenTelemetry, distributed tracing)
+- Kubernetes deployment
+- Auto-scaling
 
 ## 📄 Licence
 
@@ -315,10 +411,15 @@ MIT - Projet éducatif à des fins pédagogiques
 
 ## 🤝 Contributions
 
-Ce projet est utilisé dans un cadre pédagogique. Les contributions sont bienvenues pour améliorer l'expérience d'apprentissage.
+Projet pédagogique. Contributions bienvenues pour :
+- Améliorer clarté documentation
+- Ajouter exemples concrets
+- Enrichir tests
+- Proposer nouveaux cas d'usage MLOps
 
 ---
 
-**Version** : 2.0.0  
-**Status** : Production ready pour démonstration  
-**Next** : V3 avec MLOps avancé  
+**Version** : 3.0.0  
+**Status** : Production-ready (démonstration pédagogique)  
+**Stack** : FastAPI + PostgreSQL + Prometheus + Grafana + Docker + CI/CD  
+**Next** : Model lifecycle management avancé
