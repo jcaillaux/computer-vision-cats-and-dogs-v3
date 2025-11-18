@@ -15,8 +15,9 @@ ENABLE_PROMETHEUS = os.getenv('ENABLE_PROMETHEUS', 'false').lower() == 'true'
 
 if ENABLE_PROMETHEUS:
     try:
-        from src.monitoring.prometheus_metrics import setup_prometheus
+        from src.monitoring.prometheus_metrics import setup_prometheus, track_inference_time
         print("✅ Prometheus metrics module loaded")
+        print(f"✅ Prometheus metrics enabled at{track_inference_time}")
     except ImportError:
         print("⚠️  Prometheus metrics not available (install requirements/monitoring.txt)")
         ENABLE_PROMETHEUS = False

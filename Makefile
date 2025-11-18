@@ -7,9 +7,9 @@ help: ## Affiche cette aide
 # Commandes V2 (Conservées)
 # ============================================
 install: ## Installe les dépendances
-	python -m venv venv
-	pip install -r requirements/monitoring.txt
-	venv\Scripts\activate
+	#uv init
+	uv add --requirements requirements/monitoring.txt
+	. .venv/bin/activate
 
 test: ## Lance les tests
 	pytest tests/ -v
@@ -21,7 +21,7 @@ run: ## Lance l'API localement
 # Commandes V3 (Nouvelles)
 # ============================================
 docker-up: ## Démarre tous les services Docker
-	docker compose --env-file .env -f docker/docker-compose.yml up -d
+	docker compose --env-file .env -f docker/docker-compose.yml up -d --build
 
 docker-down: ## Arrête tous les services Docker
 	docker compose --env-file .env -f docker/docker-compose.yml down

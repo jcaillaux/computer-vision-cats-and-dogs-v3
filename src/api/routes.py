@@ -1,36 +1,7 @@
-"""
-═══════════════════════════════════════════════════════════════════════════════
-🛣️ ROUTES - API FastAPI et Pages Web
-═══════════════════════════════════════════════════════════════════════════════
-
-🎯 OBJECTIF PÉDAGOGIQUE
-Fichier central orchestrant tous les endpoints de l'application MLOps.
-Illustre l'intégration entre inférence ML, base de données, et monitoring multi-canal.
-
-📚 CONCEPTS CLÉS
-- Architecture API REST (FastAPI)
-- Séparation concerns : routes → services → modèles
-- Conditional imports : activation optionnelle de fonctionnalités (Prometheus, Discord)
-- Backward compatibility : V3 conserve 100% de la V2 (pas de breaking changes)
-- Observability : tracking à chaque point critique
-
-🔗 ARCHITECTURE
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ User Request → routes.py → [Predictor, FeedbackService, DashboardService]  │
-│                          ↓                                                  │
-│                    [PostgreSQL, Prometheus, Discord]                        │
-└─────────────────────────────────────────────────────────────────────────────┘
-
-🆕 V3 ADDITIONS (rétrocompatible avec V2)
-- Prometheus metrics tracking (optionnel via ENABLE_PROMETHEUS)
-- Discord alerting (optionnel via DISCORD_WEBHOOK_URL)
-- Healthcheck étendu avec notification proactive
-
-═══════════════════════════════════════════════════════════════════════════════
-"""
 from fastapi import APIRouter, File, UploadFile, HTTPException, Depends, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from src.monitoring.prometheus_metrics import track_inference_time
 from sqlalchemy.orm import Session
 import sys
 from pathlib import Path
@@ -285,6 +256,7 @@ async def predict_api(
         # ─────────────────────────────────────────────────────────────────────
         end_time = time.perf_counter()
         inference_time_ms = int((end_time - start_time) * 1000)
+        track_inference_time(inference_time_ms)
         # Conversion secondes → millisecondes (plus lisible pour latence)
         # Typage int : évite JSON avec .567823478 ms
         
@@ -337,7 +309,7 @@ async def predict_api(
         # ─────────────────────────────────────────────────────────────────────
         end_time = time.perf_counter()
         inference_time_ms = int((end_time - start_time) * 1000)
-        
+        track_inference_time(inference_time_ms)
         # 💾 Enregistrement de l'erreur en base (audit trail)
         try:
             FeedbackService.save_prediction_feedback(
