@@ -73,10 +73,12 @@ COPY requirements/base.txt requirements/prod.txt requirements/monitoring.txt ./
 # - monitoring.txt : Prometheus client, psutil
 # Séparation = clarté + réutilisabilité (ex: base.txt partagé avec notebooks)
 
-RUN pip install --no-cache-dir \
-    -r base.txt \
-    -r prod.txt \
-    -r monitoring.txt
+#RUN pip install --no-cache-dir \
+#    -r base.txt \
+#    -r prod.txt \
+#    -r monitoring.txt
+RUN pip install --no-cache-dir uv
+RUN uv add --requirements monitoring.txt
 # 🐍 INSTALLATION AVEC PIP
 #
 # --no-cache-dir : ne stocke PAS les wheels téléchargés (~300MB économisés)
