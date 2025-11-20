@@ -1,39 +1,9 @@
-# ═══════════════════════════════════════════════════════════════════════════════
-# 🚀 GITHUB ACTIONS - Déploiement Continu (CD)
-# ═══════════════════════════════════════════════════════════════════════════════
-#
-# 🎯 OBJECTIF PÉDAGOGIQUE
-# Pipeline CI/CD automatisant le déploiement sur VPS à chaque push sur main.
-# Illustre les concepts de déploiement continu, gestion de secrets, et SSH automation.
-#
-# 📚 CONCEPTS CLÉS
-# - CI/CD : Continuous Integration / Continuous Deployment
-# - Infrastructure as Code : déploiement reproductible et versionné
-# - Secrets management : credentials sécurisés (pas en clair dans le code)
-# - SSH automation : commandes distantes sécurisées
-# - Idempotence : script réexécutable sans effets de bord
-#
-# 🔗 WORKFLOW
-# 1. Push sur main → déclenche automatiquement
-# 2. GitHub Actions clone le code
-# 3. Connexion SSH au VPS
-# 4. Pull/clone du repo sur le VPS
-# 5. Rebuild des containers Docker
-# 6. Redémarrage de la stack MLOps
-#
-# ═══════════════════════════════════════════════════════════════════════════════
-
 name: Deploy to VPS
-
-# ─────────────────────────────────────────────────────────────────────────────
-# 🎬 DÉCLENCHEURS (Triggers)
-# ─────────────────────────────────────────────────────────────────────────────
 on:
   push:
     branches:
       - main
-    # ✅ Déclenche à chaque push sur main (stratégie trunk-based development)
-    # Alternative : déployer uniquement sur tags (ex: v1.0.0) pour plus de contrôle
+    
     
   workflow_dispatch:
     # 🖱️ Permet déclenchement manuel depuis l'UI GitHub
@@ -128,22 +98,22 @@ jobs:
             # Copier le .env
             echo "📄 Copie du fichier .env..."
             cp $HOME/apps/.env.${STUDENT_ID} .env
-            cp $HOME/apps/.env.${STUDENT_ID} docker/.env
+            #cp $HOME/apps/.env.${STUDENT_ID} docker/.env
             
             # Déployer
             echo "🐳 Déploiement Docker..."
-            cd docker
+            #cd docker
             
             # Arrêter les containers existants
             docker compose -p cv-${STUDENT_ID} down 2>/dev/null || true
             
             # Build
             echo "🔨 Build des images..."
-            docker compose -p cv-${STUDENT_ID} build --no-cache
+            docker compose -p cv-${STUDENT_ID} -f docker/docker-compose.yml build --no-cache
             
             # Up
             echo "🚀 Démarrage des containers..."
-            docker compose -p cv-${STUDENT_ID} up -d
+            docker compose -p cv-${STUDENT_ID} -f docker/docker-compose.yml up -d
             
             # Attendre que les services démarrent
             echo "⏳ Attente du démarrage..."
