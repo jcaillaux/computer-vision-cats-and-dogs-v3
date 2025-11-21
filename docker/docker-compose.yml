@@ -42,7 +42,7 @@ services:
 
       dockerfile: docker/Dockerfile.app
 
-    container_name: cv_cats_dogs_app_${STUDENT_ID:-student01}
+    container_name: cv_cats_dogs_app_${STUDENT_ID:-student05}
     restart: unless-stopped
     
     env_file:
