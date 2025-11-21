@@ -212,7 +212,7 @@ groups:
               conditions:
                 - evaluator:
                     params:
-                      - 10000  # 50%
+                      - 50000  # 50%
                     type: gt
                   reducer:
                     type: last
